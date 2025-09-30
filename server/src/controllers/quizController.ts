@@ -1,6 +1,7 @@
 import { getQuizes } from '../service/getQuizes.js';
 import type { Request, Response } from 'express';
 import { getScore } from '../service/getScore.js';
+import type { Answer } from '../types/answer.js';
 
 export const getQuizController = async (req: Request, res: Response) => {
     try {
@@ -12,7 +13,7 @@ export const getQuizController = async (req: Request, res: Response) => {
 };
 
 export const submitAnswersController = async (req: Request, res: Response) => {
-    const answers: number[] = req.body.answers;
+    const answers: Answer[] = req.body.answers;
     try {
         const score = await getScore(answers);
         res.json({ score });
