@@ -1,3 +1,5 @@
+
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -8,7 +10,7 @@ datasource db {
 }
 
 model Quiz {
-  id       Int      @id @default(autoincrement())
+  id       String   @id @default(uuid())
   question String   @unique
   options  String[]
   answer   Int
