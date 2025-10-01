@@ -9,7 +9,12 @@ export type Answer = {
     answer: number;
 };
 
+export type CorrectAnswer = {
+    id: string;
+    answer: number;
+};
+
 export type ScoreResponse = {
     score: number;
-    results: Answer[];
+    correct_answers: CorrectAnswer[];
 };
