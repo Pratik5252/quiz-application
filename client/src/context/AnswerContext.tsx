@@ -6,6 +6,7 @@ type AnswerContextType = {
     setAnswers: React.Dispatch<React.SetStateAction<Answer[]>>;
     results: ScoreResponse | undefined;
     setResults: React.Dispatch<React.SetStateAction<ScoreResponse | undefined>>;
+    clearAnswers: () => void;
 };
 
 const AnswerContext = createContext<AnswerContextType | null>(null);
@@ -14,9 +15,14 @@ export const AnswerProvider = ({ children }: { children: React.ReactNode }) => {
     const [answers, setAnswers] = useState<Answer[]>([]);
     const [results, setResults] = useState<ScoreResponse | undefined>();
 
+    const clearAnswers = () => {
+        setAnswers([]);
+        setResults(undefined);
+    };
+
     return (
         <AnswerContext.Provider
-            value={{ answers, setAnswers, results, setResults }}
+            value={{ answers, setAnswers, results, setResults, clearAnswers }}
         >
             {children}
         </AnswerContext.Provider>
