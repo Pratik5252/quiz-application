@@ -1,4 +1,4 @@
 export type Answer = {
-    questionId: string;
+    quizId: string;
     answer: number;
 };
