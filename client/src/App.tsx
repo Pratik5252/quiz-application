@@ -1,35 +1,28 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import StartQuiz from './pages/StartQuiz';
+import Quiz from './pages/Quiz';
+import Result from './pages/Result';
+import { AnswerProvider } from './context/AnswerContext';
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = () => {
+    const queryClient = new QueryClient();
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    return (
+        <AnswerProvider>
+            <QueryClientProvider client={queryClient}>
+                <BrowserRouter>
+                    <Routes>
+                        <Route path="/" element={<StartQuiz />} />
+                        <Route path="/quiz" element={<Quiz />} />
+                        <Route path="/result" element={<Result />} />
+                    </Routes>
+                </BrowserRouter>
+                <ReactQueryDevtools initialIsOpen={false} />
+            </QueryClientProvider>
+        </AnswerProvider>
+    );
+};
 
-export default App
+export default App;
