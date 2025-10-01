@@ -15,8 +15,8 @@ export const getQuizController = async (req: Request, res: Response) => {
 export const submitAnswersController = async (req: Request, res: Response) => {
     const answers: Answer[] = req.body.answers;
     try {
-        const score = await getScore(answers);
-        res.json({ score });
+        const result = await getScore(answers);
+        res.json(result);
     } catch (error) {
         res.status(500).json({ error: 'Failed to calculate score' });
     }

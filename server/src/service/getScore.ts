@@ -3,10 +3,10 @@ import type { Answer } from '../types/answer.js';
 
 export const getScore = async (
     answers: Answer[]
-): Promise<{ score: number; results: any[] }> => {
+): Promise<{ score: number; correct_answers: any[] }> => {
     try {
         let score = 0;
-        const results = await prisma.quiz.findMany({
+        const correct_answers = await prisma.quiz.findMany({
             select: { id: true, answer: true },
         });
         for (const answer of answers) {
@@ -15,7 +15,7 @@ export const getScore = async (
             });
             if (question && question.answer === answer.answer) score++;
         }
-        return { score, results };
+        return { score, correct_answers };
     } catch (error) {
         console.error('Error calculating score:', error);
         throw error;
