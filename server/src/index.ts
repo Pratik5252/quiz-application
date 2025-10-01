@@ -13,6 +13,10 @@ app.use(
 
 app.use('/api', quizRoutes);
 
+app.get('/', (req, res) => {
+    res.send('API is running...');
+});
+
 app.listen(3000, () => {
     console.log('Server is running on port 3000');
 });
