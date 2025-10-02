@@ -10,7 +10,7 @@
     "scripts": {
         "build": "tsc",
         "start": "node dist/index.js",
-        "heroku-postbuild": "npm run build && cd src && npx prisma generate",
+        "heroku-postbuild": "cd src && npx prisma generate && npm run build",
         "dev": "tsx watch src/index.ts",
         "test": "vitest",
         "prisma:seed": "tsx src/prisma/seed.ts"
