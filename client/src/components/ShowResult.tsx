@@ -18,11 +18,6 @@ const ShowResult = ({
                 const correctAnswer = results?.correct_answers.find(
                     (ans) => ans.id == quiz.id
                 )?.answer;
-
-                console.log(
-                    `Question ${quiz.id}: User=${userAnswer}, Correct=${correctAnswer}`
-                );
-
                 return (
                     <div key={quiz.id} className="mb-6">
                         <h3 className="font-medium mb-2">
