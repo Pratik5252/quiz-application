@@ -11,6 +11,49 @@ This project consists of two main components:
 -   **Frontend (Client)**: A React-based web application built with Vite, TypeScript, and TailwindCSS
 -   **Backend (Server)**: An Express.js API server with PostgreSQL database using Prisma ORM
 
+
+## Application Flow
+
+### User Journey
+
+```mermaid
+graph TD
+    A[User visits app] --> B[Start Quiz Page]
+    B --> C[Click 'Start Quiz']
+    C --> D[Fetch questions from API]
+    D --> E[Display first question]
+    E --> F[User selects answer]
+    F --> G[Store answer in context]
+    G --> H{More questions?}
+    H -->|Yes| I[Next question]
+    I --> E
+    H -->|No| J[Submit all answers to API]
+    J --> K[Calculate score on server]
+    K --> L[Return score & correct answers]
+    L --> M[Display Results Page]
+    M --> N[Show score, percentage, correct answers]
+    N --> O[Option to restart quiz]
+    O --> B
+```
+
+### Technical Flow
+
+```
+Frontend (React)         →     Backend (Express)    →     Database (PostgreSQL)
+        ↓                              ↓                           ↓
+1. Request questions     →    Get /api/quiz/questions    →    SELECT * FROM quiz
+2. Store answers locally
+3. Submit answers        →    POST /api/quiz/submit  →    Compare with correct answers
+4. Display results       ←    Return score & data   ←    Calculate final score
+```
+
+### State Management
+
+- **AnswerContext**: Manages user answers across components
+- **Timer State**: Countdown for the quiz
+- **Navigation State**: Current question index and progress
+- **Result State**: Final score and correct answers display
+
 ## Features
 
 -   Interactive quiz interface with multiple-choice questions
@@ -63,7 +106,7 @@ cd quiz-application
 
 ```
 DATABASE_URL="postgresql://username:password@localhost:5432/db_name"
-VITE_API_URL="http://localhost:3000"
+VITE_API_URL="http://localhost:5173"
 ```
 
 ### 3. Server Setup
@@ -73,7 +116,7 @@ VITE_API_URL="http://localhost:3000"
 cd server
 
 # Install dependencies
-pnpm install
+pnpm install or npm install
 
 # Generate Prisma client
 npx prisma generate
@@ -82,10 +125,10 @@ npx prisma generate
 npx prisma migrate dev --name [migration_name]
 
 # Seed the database with sample data
-pnpm run prisma:seed
+pnpm prisma:seed or npm run prisma:seed
 
 # Start the development server
-pnpm run dev
+pnpm dev or npm run dev
 ```
 
 The server will start on `http://localhost:3000`
@@ -97,21 +140,80 @@ The server will start on `http://localhost:3000`
 cd client
 
 # Install dependencies
-pnpm install
+pnpm install or npm install
 
-# Update the .env file with your API endpoint (if different)
-# VITE_API_URL=http://localhost:3000
+# Add the .env file with your API endpoint (if different)
+VITE_API_URL=http://localhost:3000
 
 # Start the development server
-pnpm run dev
+pnpm dev or npm run dev
 ```
 
 The client will start on `http://localhost:5173`
 
 ## API Endpoints
 
--   `GET /api/quiz` - Fetch all quiz questions
--   `POST /api/quiz/score` - Submit answers and get score
+##### Get Quiz Questions
+
+`GET /api/quiz/questions` - Fetch all quiz questions
+
+**Response:**
+
+```json
+[
+    {
+        "id": "uuid-1",
+        "question": "What is the capital of France?",
+        "options": ["London", "Berlin", "Paris", "Madrid"],
+        "answer": 2
+    },
+    {
+        "id": "uuid-2",
+        "question": "What is 2 + 2?",
+        "options": ["3", "4", "5", "6"],
+        "answer": 1
+    }
+]
+```
+
+##### Submit Quiz Answers
+
+`POST /api/quiz/submit` - Submit answers and get score
+
+**Request Body:**
+
+```json
+{
+    "answers": [
+        {
+            "quizId": "uuid-1",
+            "answer": 2
+        },
+        {
+            "quizId": "uuid-2",
+            "answer": 1
+        }
+    ]
+}
+```
+
+**Response:**
+
+```json
+{
+    "score": 2,
+    "correct_answers": [
+        {
+            "id": "uuid-1",
+            "answer": 2
+        },
+        {
+            "id": "uuid-2",
+            "answer": 1
+        }
+    ]
+}
+```
 
 ## Database Schema
 
