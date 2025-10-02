@@ -40,9 +40,9 @@ describe('getScore Function', () => {
 
     it('should calculate partial score for mixed answers', async () => {
         const userAnswers: Answer[] = [
-            { quizId: 'quiz-1', answer: 2 }, // correct
-            { quizId: 'quiz-2', answer: 1 }, // incorrect
-            { quizId: 'quiz-3', answer: 1 }, // correct
+            { quizId: 'quiz-1', answer: 2 },
+            { quizId: 'quiz-2', answer: 1 },
+            { quizId: 'quiz-3', answer: 1 },
         ];
 
         mockPrisma.quiz.findMany.mockResolvedValue(mockCorrectAnswers);
