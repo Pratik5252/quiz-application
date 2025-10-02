@@ -4,7 +4,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 export const fetchQuizes = async (): Promise<QuizType[]> => {
     try {
-        const response = await fetch(`${API_URL}/api/questions`);
+        const response = await fetch(`${API_URL}/api/quiz/questions`);
         if (!response.ok) {
             throw new Error('Failed to fetch quizzes');
         }
@@ -20,7 +20,7 @@ export const submitAnswers = async (
     answers: Answer[]
 ): Promise<ScoreResponse> => {
     try {
-        const response = await fetch(`${API_URL}/api/submit`, {
+        const response = await fetch(`${API_URL}/api/quiz/submit`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

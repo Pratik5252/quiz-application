@@ -11,7 +11,7 @@ app.use(
     })
 );
 
-app.use('/api', quizRoutes);
+app.use('/api/quiz', quizRoutes);
 
 app.get('/', (req, res) => {
     res.send('API is running...');
