@@ -66,25 +66,31 @@ const Quiz = () => {
 
     return (
         <div className="flex flex-col items-center justify-start w-full h-full p-6">
-            {isLoading && <div>Loading...</div>}
-
             <div className="w-full max-w-4xl flex flex-col gap-4 justify-center ">
                 <div className="flex justify-between items-center">
                     <p className="text-left">
-                        Questions {currentIndex + 1} of {length}
+                        {!isLoading && (
+                            <>
+                                Questions {currentIndex + 1} of {length}
+                            </>
+                        )}
                     </p>
                     <Timer
                         onTimeUp={handleSubmit}
                         time={time}
                         setTime={setTime}
                         isSubmitting={isPending}
+                        isLoading={isLoading}
                     />
                 </div>
-                <p className="text-lg font-medium">
-                    {currentIndex + 1}
-                    {')'} {data?.[currentIndex]?.question}
-                </p>
+                {!isLoading && (
+                    <p className="text-lg font-medium">
+                        {currentIndex + 1}
+                        {')'} {data?.[currentIndex]?.question}
+                    </p>
+                )}
                 <div className="flex flex-col gap-2">
+                    {isLoading && <div>Loading...</div>}
                     {data?.[currentIndex].options.map((option, index) => {
                         return (
                             <div
