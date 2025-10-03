@@ -119,10 +119,10 @@ cd server
 pnpm install or npm install
 
 # Generate Prisma client
-npx prisma generate
+cd src && npx prisma generate
 
 # Run database migrations
-npx prisma migrate dev --name [migration_name]
+cd src && npx prisma migrate dev --name [migration_name]
 
 # Seed the database with sample data
 pnpm prisma:seed or npm run prisma:seed
