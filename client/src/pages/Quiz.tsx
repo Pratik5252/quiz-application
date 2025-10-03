@@ -14,9 +14,9 @@ const Quiz = () => {
     //get Data from useQuiz hook and mutation to submit answers
     const { quizData, mutation } = useQuiz();
     const { isLoading, data } = quizData;
-    const { mutateAsync } = mutation;
+    const { mutateAsync, isPending } = mutation;
 
-    //constantly get length of quiz data and current quiz id
+    //get length of quiz data and current quiz id
     const length = data?.length ?? 0;
     const currentQuizId = data?.[currentIndex].id;
     const selectedQuizId = answers.find(
@@ -43,9 +43,13 @@ const Quiz = () => {
     };
 
     const handleSubmit = async () => {
-        const result = await mutateAsync(answers);
-        setResults(result);
-        navigate('/result');
+        try {
+            const result = await mutateAsync(answers);
+            setResults(result);
+            navigate('/result');
+        } catch (error) {
+            console.error('Error submitting answers:', error);
+        }
     };
 
     //Handles Previous and Next Toggles
@@ -73,6 +77,7 @@ const Quiz = () => {
                         onTimeUp={handleSubmit}
                         time={time}
                         setTime={setTime}
+                        isSubmitting={isPending}
                     />
                 </div>
                 <p className="text-lg font-medium">
@@ -129,7 +134,7 @@ const Quiz = () => {
                 </div>
                 {currentIndex === length - 1 && (
                     <button className="btn" onClick={handleSubmit}>
-                        Submit
+                        {isPending ? 'Submitting...' : 'Submit'}
                     </button>
                 )}
             </div>
