@@ -5,20 +5,29 @@ type TimerProps = {
     time: number;
     setTime: React.Dispatch<React.SetStateAction<number>>;
     isSubmitting?: boolean;
+    isLoading?: boolean;
 };
 
-const Timer = ({ onTimeUp, time, setTime, isSubmitting }: TimerProps) => {
+const Timer = ({
+    onTimeUp,
+    time,
+    setTime,
+    isSubmitting,
+    isLoading,
+}: TimerProps) => {
     useEffect(() => {
         if (time <= 0) {
             onTimeUp();
             return;
         }
         if (isSubmitting) return;
+
+        if (isLoading) return;
         const timer = setInterval(() => {
             setTime((prev) => prev - 1);
         }, 1000);
         return () => clearInterval(timer);
-    }, [time, isSubmitting]);
+    }, [time, isSubmitting, isLoading]);
 
     const formatTime = (seconds: number) => {
         const mins = Math.floor(seconds / 60);
