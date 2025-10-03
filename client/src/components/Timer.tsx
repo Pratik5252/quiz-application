@@ -4,19 +4,21 @@ type TimerProps = {
     onTimeUp: () => void;
     time: number;
     setTime: React.Dispatch<React.SetStateAction<number>>;
+    isSubmitting?: boolean;
 };
 
-const Timer = ({ onTimeUp, time, setTime }: TimerProps) => {
+const Timer = ({ onTimeUp, time, setTime, isSubmitting }: TimerProps) => {
     useEffect(() => {
         if (time <= 0) {
             onTimeUp();
             return;
         }
+        if (isSubmitting) return;
         const timer = setInterval(() => {
             setTime((prev) => prev - 1);
         }, 1000);
         return () => clearInterval(timer);
-    }, [time]);
+    }, [time, isSubmitting]);
 
     const formatTime = (seconds: number) => {
         const mins = Math.floor(seconds / 60);
